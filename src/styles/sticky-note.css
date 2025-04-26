@@ -1,0 +1,18 @@
+.sticky-note {
+  min-width: 50px;
+  min-height: 20px;
+
+  word-break: break-all;
+
+  overflow-y: hidden;
+}
+.note-wrapper {
+  width: 100px;
+  height: 100px;
+  background-color: #edd892;
+
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
