@@ -15,6 +15,13 @@ const NoteContainer = () => {
     lastY: 0,
   });
 
+  /*
+  handels drag and drop:
+  - Tracks mouse events
+  - Calculate new position of the note
+  - Restricts movement within the container border
+  - Cleans up event listeners
+  */
   useEffect(() => {
     if (!noteRef.current || !containerRef.current) return;
 
