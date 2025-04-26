@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState, forwardRef } from 'react';
 import '../styles/sticky-note.css';
 
-const StickyNote = () => {
+const StickyNote = forwardRef((props, ref) => {
   const [text, setText] = useState('Note');
-  const wrapperRef = useRef(null);
   const noteRef = useRef(null);
 
   /*
@@ -16,7 +15,7 @@ const StickyNote = () => {
     const oldText = text;
     setText(newText);
 
-    const wrapHeight = parseInt(window.getComputedStyle(wrapperRef.current).height, 10);
+    const wrapHeight = parseInt(window.getComputedStyle(ref.current).height, 10);
     const noteHeight = parseInt(window.getComputedStyle(noteRef.current).height, 10);
     if (wrapHeight < noteHeight) {
       e.target.innerText = oldText;
@@ -25,10 +24,10 @@ const StickyNote = () => {
   };
 
   return (
-    <div ref={wrapperRef} className="note-wrapper">
+    <div ref={ref} className="note-wrapper">
       <div ref={noteRef} className="sticky-note" contentEditable onInput={handleInput}></div>
     </div>
   );
-};
+});
 
 export default StickyNote;
