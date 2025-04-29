@@ -6,6 +6,9 @@ const NoteContainer = () => {
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
   const containerRef = useRef(null);
+  const [counter, setCounter] = useState(0);
+
+  const colorArr = ['#feff9c', '#7afcff', '#ff7eb9', '#cdfc93', '#ce81ff', '#fff740', '#ff7eb9'];
 
   const addHandler = () => {
     setNotes((prev) => [
@@ -15,8 +18,10 @@ const NoteContainer = () => {
         id={prev.length}
         containerRef={containerRef}
         onClick={() => setSelectedNote(prev.length)}
+        color={colorArr[counter % colorArr.length]}
       ></StickyNote>,
     ]);
+    setCounter(counter + 1);
   };
   const deleteHandler = () => {
     if (selectedNote != null) {

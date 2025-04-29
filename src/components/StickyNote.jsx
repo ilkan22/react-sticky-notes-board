@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import '../styles/sticky-note.css';
 
-const StickyNote = ({ containerRef, id, onClick }) => {
+const StickyNote = ({ containerRef, id, onClick, color }) => {
   const [text, setText] = useState('Note');
   const noteRef = useRef(null);
   const ref = useRef(null);
@@ -85,7 +85,12 @@ const StickyNote = ({ containerRef, id, onClick }) => {
   }, []);
 
   return (
-    <div ref={ref} onClick={() => onClick && onClick()} className="note-wrapper">
+    <div
+      ref={ref}
+      onClick={() => onClick && onClick()}
+      className="note-wrapper"
+      style={{ background: color }}
+    >
       <div ref={noteRef} className="sticky-note" contentEditable onInput={handleInput}></div>
     </div>
   );
