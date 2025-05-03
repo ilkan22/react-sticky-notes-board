@@ -12,10 +12,15 @@ body {
 
   cursor: text;
 }
+.sticky-note:hover {
+  background-color: rgba(38, 0, 255, 0.082);
+}
 .note-wrapper {
   width: 100px;
   height: 100px;
-  /*background-color: #edd892;*/
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
 
   padding: 10px;
 
