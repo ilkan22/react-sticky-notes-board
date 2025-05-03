@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import '../styles/sticky-note.css';
 
-const StickyNote = ({ containerRef, id, onClick, color, x, y, onPosChange }) => {
+const StickyNote = ({ containerRef, id, onClick, color, x, y, onPosChange, isSelected }) => {
   const [text, setText] = useState('Note');
   const noteRef = useRef(null);
   const ref = useRef(null);
@@ -70,9 +70,9 @@ const StickyNote = ({ containerRef, id, onClick, color, x, y, onPosChange }) => 
       coords.current.lastX = note.offsetLeft;
       coords.current.lastY = note.offsetTop;
 
-      if (onPosChange) {
+      /*if (onPosChange) {
         onPosChange(id, coords.current.lastX, coords.current.lastY);
-      }
+      }*/
     };
 
     /*
@@ -100,6 +100,10 @@ const StickyNote = ({ containerRef, id, onClick, color, x, y, onPosChange }) => 
 
       note.style.left = `${nextX}px`;
       note.style.top = `${nextY}px`;
+
+      if (onPosChange) {
+        onPosChange(id, nextX, nextY);
+      }
     };
 
     note.addEventListener('mousedown', onMouseDown);
@@ -122,7 +126,12 @@ const StickyNote = ({ containerRef, id, onClick, color, x, y, onPosChange }) => 
       ref={ref}
       onClick={() => onClick && onClick()}
       className="note-wrapper"
-      style={{ background: color, position: 'absolute', left: `${x}px`, top: `${y}px` }}
+      style={{
+        background: color,
+        position: 'absolute',
+        left: `${x}px`,
+        top: `${y}px`,
+      }}
     >
       <div ref={noteRef} className="sticky-note" contentEditable onInput={handleInput}></div>
     </div>

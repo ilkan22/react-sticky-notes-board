@@ -8,6 +8,10 @@ const NoteContainer = () => {
   const containerRef = useRef(null);
   const [counter, setCounter] = useState(0);
 
+  const [conntectorActive, setConntectorActive] = useState(false);
+  const [connections, setConnections] = useState([]);
+  const [selectedForConnection, setSelectedForConnection] = useState([]);
+
   const colorArr = ['#feff9c', '#7afcff', '#ff7eb9', '#cdfc93', '#ce81ff', '#fff740', '#ff7eb9'];
 
   /*
@@ -57,14 +61,87 @@ const NoteContainer = () => {
       <div>
         <button onClick={addHandler}>+</button>
         <button onClick={deleteHandler}>-</button>
+        <button
+          onClick={() => {
+            setConntectorActive((prev) => !prev);
+            setSelectedForConnection([]);
+          }}
+        >
+          {conntectorActive ? 'Connector: On' : 'Connector: Off'}
+        </button>
       </div>
       <div ref={containerRef} className="note-container">
+        <svg
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 0,
+            pointerEvents: 'none',
+          }}
+        >
+          {(() => {
+            const noteMap = Object.fromEntries(notes.map((n) => [n.id, n]));
+            return connections.map((conn, index) => {
+              const fromNote = noteMap[conn.from];
+              const toNote = noteMap[conn.to];
+              if (!fromNote || !toNote) return null;
+
+              const fromX = fromNote.x + 75;
+              const fromY = fromNote.y + 75;
+              const toX = toNote.x + 75;
+              const toY = toNote.y + 75;
+
+              return (
+                <line
+                  key={index}
+                  x1={fromX}
+                  y1={fromY}
+                  x2={toX}
+                  y2={toY}
+                  stroke="black"
+                  strokeWidth="2"
+                />
+              );
+            });
+          })()}
+        </svg>
         {notes.map((note) => (
           <StickyNote
             key={note.id}
             id={note.id}
             containerRef={containerRef}
-            onClick={() => setSelectedNote(note.id)}
+            onClick={() => {
+              if (conntectorActive) {
+                if (selectedForConnection.some((n) => n.id === note.id)) return;
+
+                const updated = [...selectedForConnection, note];
+
+                if (updated.length === 2) {
+                  setConnections((prev) => {
+                    const from = updated[0].id;
+                    const to = updated[1].id;
+
+                    const exists = prev.some(
+                      (conn) =>
+                        (conn.from === from && conn.to === to) ||
+                        (conn.from === to && conn.to === from)
+                    );
+
+                    if (exists) return prev;
+
+                    return [...prev, { from, to }];
+                  });
+                  setSelectedForConnection([]);
+                } else {
+                  setSelectedForConnection(updated);
+                }
+              } else {
+                setSelectedNote(note.id);
+              }
+            }}
             x={note.x}
             y={note.y}
             color={note.color}
