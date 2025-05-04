@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import '../styles/sticky-note.css';
 
-const StickyNote = ({ containerRef, id, onClick, color, x, y, onPosChange, isSelected }) => {
+const StickyNote = ({ containerRef, id, onClick, color, x, y, onPosChange, onTextChange }) => {
   const [text, setText] = useState('Note');
   const noteRef = useRef(null);
   const ref = useRef(null);
@@ -21,6 +21,8 @@ const StickyNote = ({ containerRef, id, onClick, color, x, y, onPosChange, isSel
     if (wrapHeight < noteHeight) {
       e.target.innerText = oldText;
       setText(oldText);
+    } else {
+      onTextChange(id, newText);
     }
   };
 

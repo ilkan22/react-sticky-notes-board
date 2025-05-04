@@ -30,6 +30,7 @@ const NoteContainer = () => {
         x: 0 + counter * 10,
         y: 0,
         color: col,
+        text: '',
       },
     ]);
     setCounter(counter + 1);
@@ -47,6 +48,29 @@ const NoteContainer = () => {
       setNotes((prev) => prev.filter((note) => note.id !== selectedNote));
       setSelectedNote(null);
     }
+  };
+
+  /*
+  exportToJson:
+  - Creates a JSON object containing all current notes and connections
+  - Converts it into a downloadable file
+  - Triggers an automatic download in the browser
+*/
+  const exportToJson = () => {
+    const data = {
+      notes,
+      connections,
+    };
+
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'notes-and-connections.json';
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   /*
@@ -69,6 +93,7 @@ const NoteContainer = () => {
         >
           {conntectorActive ? 'Connector: On' : 'Connector: Off'}
         </button>
+        <button onClick={exportToJson}>Export</button>
       </div>
       <div ref={containerRef} className="note-container">
         <svg
@@ -79,7 +104,7 @@ const NoteContainer = () => {
             width: '100%',
             height: '100%',
             zIndex: 0,
-            pointerEvents: 'none',
+            /*pointerEvents: 'none',*/
           }}
         >
           {(() => {
@@ -103,6 +128,17 @@ const NoteContainer = () => {
                   y2={toY}
                   stroke="black"
                   strokeWidth="2"
+                  onClick={() => {
+                    setConnections((prev) =>
+                      prev.filter(
+                        (c) =>
+                          !(
+                            (c.from === conn.from && c.to === conn.to) ||
+                            (c.from === conn.to && c.to === conn.from)
+                          )
+                      )
+                    );
+                  }}
                 />
               );
             });
@@ -148,6 +184,11 @@ const NoteContainer = () => {
             onPosChange={(id, newX, newY) => {
               setNotes((prev) =>
                 prev.map((note) => (note.id === id ? { ...note, x: newX, y: newY } : note))
+              );
+            }}
+            onTextChange={(id, newText) => {
+              setNotes((prev) =>
+                prev.map((note) => (note.id === id ? { ...note, text: newText } : note))
               );
             }}
           />

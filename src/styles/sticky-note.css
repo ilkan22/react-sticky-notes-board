@@ -45,3 +45,8 @@ body {
   position: relative;
   overflow: hidden;
 }
+.note-container svg line:hover {
+  stroke: red;
+  stroke-width: 4;
+  cursor: pointer;
+}
