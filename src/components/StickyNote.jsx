@@ -1,8 +1,18 @@
 import { useRef, useState, useEffect } from 'react';
 import '../styles/sticky-note.css';
 
-const StickyNote = ({ containerRef, id, onClick, color, x, y, onPosChange, onTextChange }) => {
-  const [text, setText] = useState('Note');
+const StickyNote = ({
+  containerRef,
+  id,
+  onClick,
+  color,
+  x,
+  y,
+  onPosChange,
+  onTextChange,
+  text,
+}) => {
+  //const [text, setText] = useState('Note');
   const noteRef = useRef(null);
   const ref = useRef(null);
 
@@ -14,13 +24,11 @@ const StickyNote = ({ containerRef, id, onClick, color, x, y, onPosChange, onTex
   const handleInput = (e) => {
     const newText = e.target.innerText;
     const oldText = text;
-    setText(newText);
 
     const wrapHeight = parseInt(window.getComputedStyle(ref.current).height, 10);
     const noteHeight = parseInt(window.getComputedStyle(noteRef.current).height, 10);
     if (wrapHeight < noteHeight) {
       e.target.innerText = oldText;
-      setText(oldText);
     } else {
       onTextChange(id, newText);
     }
@@ -34,6 +42,12 @@ const StickyNote = ({ containerRef, id, onClick, color, x, y, onPosChange, onTex
     lastX: 0,
     lastY: 0,
   });
+
+  useEffect(() => {
+    if (noteRef.current && noteRef.current.innerText.trim() === '') {
+      noteRef.current.innerText = text;
+    }
+  }, [text]);
 
   /*
   useEffect:
@@ -135,7 +149,14 @@ const StickyNote = ({ containerRef, id, onClick, color, x, y, onPosChange, onTex
         top: `${y}px`,
       }}
     >
-      <div ref={noteRef} className="sticky-note" contentEditable onInput={handleInput}></div>
+      <div
+        ref={noteRef}
+        className="sticky-note"
+        contentEditable
+        onInput={handleInput}
+        suppressContentEditableWarning={true}
+        dir="ltr"
+      ></div>
     </div>
   );
 };

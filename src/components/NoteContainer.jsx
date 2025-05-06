@@ -25,8 +25,8 @@ const NoteContainer = () => {
     setNotes((prev) => [
       ...prev,
       {
-        key: prev.length,
-        id: prev.length,
+        key: new Date().getTime() + prev.length,
+        id: new Date().getTime() + prev.length,
         x: 0 + counter * 10,
         y: 0,
         color: col,
@@ -74,6 +74,47 @@ const NoteContainer = () => {
   };
 
   /*
+  importFromJson:
+  - Imports a JSON file containing notes and connections
+  - Replaces the current notes and connections with the imported ones
+  - Assigns a unique ID to each imported note if missing
+  - Updates the note counter based on the highest existing ID
+*/
+  const importFromJson = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const json = JSON.parse(event.target.result);
+
+        if (json.notes && json.connections) {
+          setNotes([]);
+          setConnections([]);
+
+          const updatedNotes = json.notes.map((note) => ({
+            ...note,
+            id: note.id || new Date().getTime(),
+          }));
+
+          setNotes(updatedNotes);
+          setConnections(json.connections);
+
+          const maxId = Math.max(...updatedNotes.map((n) => n.id), 0);
+          setCounter(maxId + 1);
+        } else {
+          alert('Invalid format');
+        }
+      } catch (err) {
+        alert('Error reading the file: ' + err.message);
+      }
+    };
+
+    reader.readAsText(file);
+  };
+
+  /*
   StickyNote component inside .map():
   - Renders all notes
   - Passes position, color, and drag behavior
@@ -94,6 +135,20 @@ const NoteContainer = () => {
           {conntectorActive ? 'Connector: On' : 'Connector: Off'}
         </button>
         <button onClick={exportToJson}>Export</button>
+        <input
+          type="file"
+          accept="application/json"
+          style={{ display: 'none' }}
+          id="json-upload"
+          onChange={importFromJson}
+        />
+        <button
+          onClick={() => {
+            document.getElementById('json-upload').click();
+          }}
+        >
+          Import JSON
+        </button>
       </div>
       <div ref={containerRef} className="note-container">
         <svg
@@ -191,6 +246,7 @@ const NoteContainer = () => {
                 prev.map((note) => (note.id === id ? { ...note, text: newText } : note))
               );
             }}
+            text={note.text}
           />
         ))}
       </div>
