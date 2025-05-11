@@ -123,32 +123,81 @@ const NoteContainer = () => {
 */
   return (
     <div>
-      <div>
-        <button onClick={addHandler}>+</button>
-        <button onClick={deleteHandler}>-</button>
-        <button
-          onClick={() => {
-            setConntectorActive((prev) => !prev);
-            setSelectedForConnection([]);
-          }}
-        >
-          {conntectorActive ? 'Connector: On' : 'Connector: Off'}
-        </button>
-        <button onClick={exportToJson}>Export</button>
-        <input
-          type="file"
-          accept="application/json"
-          style={{ display: 'none' }}
-          id="json-upload"
-          onChange={importFromJson}
-        />
-        <button
-          onClick={() => {
-            document.getElementById('json-upload').click();
-          }}
-        >
-          Import JSON
-        </button>
+      <div className="button-container">
+        <div className="buttons-left">
+          <button onClick={addHandler} className="click-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#e3e3e3"
+            >
+              <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+            </svg>
+          </button>
+          <button onClick={deleteHandler} className="click-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#e3e3e3"
+            >
+              <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
+            </svg>
+          </button>
+        </div>
+        <div className="buttons-middle">
+          <span>Connector:</span>
+          <button
+            className={`toggle-btn ${conntectorActive ? 'toggled' : ''}`}
+            onClick={() => {
+              setConntectorActive((prev) => !prev);
+              setSelectedForConnection([]);
+            }}
+          >
+            <div className="toggle-dot"></div>
+          </button>
+        </div>
+        <div className="buttons-right">
+          <button onClick={exportToJson} className="click-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#e3e3e3"
+            >
+              <path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
+            </svg>
+            <span>Export</span>
+          </button>
+          <input
+            type="file"
+            accept="application/json"
+            style={{ display: 'none' }}
+            id="json-upload"
+            onChange={importFromJson}
+          />
+          <button
+            className="click-btn"
+            onClick={() => {
+              document.getElementById('json-upload').click();
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#e3e3e3"
+            >
+              <path d="M440-200h80v-167l64 64 56-57-160-160-160 160 57 56 63-63v167ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
+            </svg>
+            <span>Import JSON</span>
+          </button>
+        </div>
       </div>
       <div ref={containerRef} className="note-container">
         <svg

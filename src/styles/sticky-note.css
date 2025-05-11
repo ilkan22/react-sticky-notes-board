@@ -37,16 +37,110 @@ body {
 .note-wrapper:active {
   cursor: move;
 }
-
-.note-container {
-  height: 100vh;
+.button-container {
+  background-color: #4a5a6a;
+  height: 5vh;
+  min-height: 30px;
   width: 100vw;
-
+  box-shadow: 0px 0px 45px 5px rgba(0, 0, 0, 0.45);
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.button-container .click-btn {
+  height: 3vh;
+  min-height: 20px;
+  min-width: 30px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: none;
+  background-color: #4a4a4a;
+  color: #ebebeb;
+  /*margin-left: 1vw;*/
+  border-radius: 5px;
+  font-weight: bold;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+.button-container .click-btn:hover {
+  color: #111111;
+}
+.button-container .click-btn:active {
+  background-color: #5a5a5a;
+  color: #111111;
+}
+.button-container .click-btn:hover svg {
+  fill: #111111;
+}
+.buttons-right {
+  display: flex;
+  gap: 1vw;
+  margin-right: 1vw;
+}
+.buttons-left {
+  display: flex;
+  gap: 1vw;
+  margin-left: 1vw;
+}
+.note-container {
+  background-color: #e2e2e2;
+  height: 95vh;
+  width: 100vw;
   position: relative;
   overflow: hidden;
+
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, #c0c0c0 1px, transparent 1px),
+    linear-gradient(to bottom, #c0c0c0 1px, transparent 1px);
 }
 .note-container svg line:hover {
   stroke: red;
   stroke-width: 4;
   cursor: pointer;
+}
+
+.toggle-btn {
+  background-color: #4a4a4a;
+  border: 1px solid #3a3a3a;
+  border-radius: 99px;
+  width: 50px;
+  height: 28px;
+  transition:
+    backkground-color 0.1s ease,
+    border-color 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+.toggle-dot {
+  height: 20px;
+  width: 20px;
+  background-color: #e6e6e6;
+  border-radius: 99px;
+  transform: translateX(0);
+  transition: left 0.15 ease;
+  position: absolute;
+  left: 3;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.toggle-btn.toggled {
+  background-color: #00ad4e;
+}
+.toggle-btn:hover {
+  border-color: #202020;
+}
+.toggle-btn.toggled .toggle-dot {
+  left: calc(50px - 25px);
+}
+
+.buttons-middle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ebebeb;
+  font-weight: bold;
 }
