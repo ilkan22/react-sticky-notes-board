@@ -40,3 +40,9 @@ A React-based interactive sticky notes board that allows you to create, delete, 
 Your browser should open at `http://localhost:5173/` with the sticky notes board ready to use.
 
 ---
+
+## DEMO
+
+https://ilkan22.github.io/react-sticky-notes-board/
+
+---
