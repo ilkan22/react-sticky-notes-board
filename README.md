@@ -34,7 +34,7 @@ A React-based interactive sticky notes board that allows you to create, delete, 
 3. **Start the development server**
 
    ```bash
-   npm run start
+   npm run dev
    ```
 
 Your browser should open at `http://localhost:5173/` with the sticky notes board ready to use.
